@@ -4,6 +4,18 @@ import sqlite3
 
 app = Flask(__name__)
 
+# Store information
+STORE = {
+    "name": "The Treble & Bass Bookstore",
+    "tagline": "Stories behind every note.",
+    "copyright": "2025 The Treble & Bass Bookstore",
+    "logo": "images/misc/treble-bass-logo.jpg",
+}
+
+@app.context_processor
+def add_store_details():
+    return {"store": STORE}
+
 # -----------------------------
 # DB CONNECTION
 # -----------------------------
@@ -29,7 +41,7 @@ def home():
 @app.route('/category')
 def category():
     category_id = request.args.get("categoryId", type=int)
-    
+
     conn = get_db_connection()
     selected_books = conn.execute(
         "SELECT * FROM books WHERE categoryId = ?",
@@ -92,4 +104,3 @@ def handle_error(e):
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8080))
     app.run(host='0.0.0.0', port=port)
-

@@ -1,43 +1,26 @@
 {% extends 'base.html' %}
+
 {% block container %}
 <main>
     <div id="mainLeft">
-        <h1 class="welcomeText">
-            Welcome to the single source for all your music book needs!
-        </h1>
-
-        <p class="welcomeText">
-            If you want to learn about music theory or the people that compose it, we have something for you
-        </p>
-        <p class="welcomeText">
-            If you want help in playing an instrument or if you want some music to play, you've come to the right place
-        </p>
-        <p class="welcomeText">
-            We have the most extensive music book selection online and we keep our prices as low as we can to keep you coming back.
-        </p>
+        <h1 class="welcomeText">Welcome to {{ store.name }}</h1>
+        <p class="welcomeText">{{ store.tagline }}</p>
+        <p class="welcomeText">Dig into biographies, behind-the-scenes histories, and listening guides from every era of music.</p>
+        <p class="welcomeText">Pick a category to browse our featured shelves and find your next read.</p>
     </div>
-
     <div id='mainRight'>
         <h1>Shop by category:</h1>
         <div id='categorySelections'>
-
             {% for category in categories %}
-            <div class='category'>
-                <p>
-                    <a href="{{ url_for('category', categoryId=category[0]) }}">
-                        {{ category[1] }}
+                <div class='category'>
+                    <a href="{{ url_for('category', categoryId=category['id']) }}">
+                        <img src="{{ url_for('static', filename='images/categories/' ~ category['image']) }}" alt="{{ category['name'] }}">
                     </a>
-                </p>
+                    <p><a href="{{ url_for('category', categoryId=category['id']) }}">{{ category['name'] }}</a></p>
+                </div>
+            {%endfor%}
 
-                <a href="{{ url_for('category', categoryId=category[0]) }}">
-                    <img src="{{ url_for('static',
-                        filename='images/categories/' + category[1]|lower|replace(' ', '-') + '-category.jpg') }}"
-                        alt="{{ category[1] }}">
-                </a>
-            </div>
-            {% endfor %}
         </div>
     </div>
 </main>
 {% endblock %}
-
